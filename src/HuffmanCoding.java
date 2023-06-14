@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class HuffmanCoding {
+
+    static float CharCount = 0, CodesCount = 0;
     private static HuffmanNode buildHuffmanTree(Map<Character, Integer> frequencyMap) {
         MinHeap minHeap = new MinHeap();
 
@@ -31,3 +33,25 @@ public class HuffmanCoding {
 
         return minHeap.extractMin();
     }
+
+    private static String decode(HuffmanNode root, String encodedText) {
+        StringBuilder decodedText = new StringBuilder();
+        HuffmanNode current = root;
+
+        for (char c : encodedText.toCharArray()) {
+            if (c == '0') {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+            
+            if (current.left == null && current.right == null) {
+                decodedText.append(current.data);
+                current = root;
+            }
+            CodesCount++;
+        }
+
+        return decodedText.toString();
+    }
+}
